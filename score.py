@@ -1,52 +1,47 @@
 def main():
-
-    students = []
-    
+    gmk = []
     fp = open('C:\Users\Min\git\open_source_gmk/score.csv','r')
     lines = fp.readlines()
     fp.close()
-    
     for line in lines:
         line = line.strip()   
         items = line.split(',')
+        gm = {}
+        gm['id'] = int(items[0])
+        gm['name'] = items[1]
+        gm['korean'] = int(items[2])
+        gm['english'] = int(items[3])
+        gm['math'] = int(items[4])
+        gm['total'] = 0
+        gm['avg'] = 0.0
+        gm['rank'] = 0
         
-        student = {}
-        student['id'] = int(items[0])
-        student['name'] = items[1]
-        student['kor'] = int(items[2])
-        student['eng'] = int(items[3])
-        student['math'] = int(items[4])
-        student['total'] = 0
-        student['avg'] = 0.0
-        student['ranking'] = 0
+        gmk.append(gm)
         
-        students.append(student)
-        
-    for student in students:
-        student['total'] = student['kor'] + student['eng'] + student['math'] 
-        student['avg'] = student['total'] / 3    
+    for gm in gmk:
+        gm['total'] = gm['korean'] + gm['english'] + gm['math'] 
+        gm['avg'] = gm['total'] / 3    
            
-    sorted_students = sorted(students, key = lambda x : x['total'], reverse=True)
+    sorted_gmk = sorted(gmk, key = lambda x : x['total'], reverse=True)
 
     count = 1
-    for student in sorted_students:
-        student['ranking'] = count
+    for gm in sorted_gmk:
+        gm['rank'] = count
         count = count + 1
         
-    result_students = sorted(sorted_students, key = lambda x : x['id'])
+    result_gmk = sorted(sorted_gmk, key = lambda x : x['id'])
     
     fp = open('C:\Users\Min\git\open_source_gmk/result_score.csv', 'w')
     
-    for student in result_students:
-        line = ','.join([str(student['id']),str(student['name']),str(student['kor']),str(student['eng']),
-                         str(student['math']),str(student['total']),str(student['avg']),str(student['ranking']),'\n'])
+    for gm in result_gmk:
+        line = ','.join([str(gm['id']),str(gm['name']),str(gm['korean']),str(gm['english']),
+                         str(gm['math']),str(gm['total']),str(gm['avg']),str(gm['rank']),'\n'])
         fp.write(line)
         
     fp.close()
         
-    for student in sorted_students:
-        print(student) 
+    for gm in sorted_gmk:
+        print(gm) 
      
 if __name__ == "__main__":
     main()
-
